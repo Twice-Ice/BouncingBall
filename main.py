@@ -8,10 +8,11 @@ screen = pygame.display.set_mode((gb.SX, gb.SY), pygame.NOFRAME)
 
 doExit = False
 clock = pygame.time.Clock()
-ball : Ball = None
+balls : list[Ball] = []
 colliders : list[Ray] = []
 
 def startGame():
+    """starts game"""
     global ball
     global colliders
 
@@ -31,15 +32,17 @@ def startGame():
     #             color = (150, 150, 150))
 
 startGame()
+#fps toggle init
 a = 0
 FPS = [10, 60]
 
+#cooldown
 cd = 0
 
 while not doExit:
     keys = pygame.key.get_pressed()
     dt = clock.tick(FPS[a%len(FPS)])/1000
-    if keys[pygame.K_o]:
+    if keys[pygame.K_o]: #slomo attempt (failed)
         dt /= 100
     cd += dt
     screen.fill(gb.BG)
@@ -50,19 +53,21 @@ while not doExit:
     if keys[pygame.K_r]:
         startGame()
     if keys[pygame.K_a]:
-        ball = Ball(
-                drag=-.01,
+        balls.append(Ball(
+                drag=0,
                 size=2,
-                color = (150, 150, 150))
+                color = (150, 150, 150)))
     # if keys[pygame.K_SPACE]:
-    if ball:
+    for ball in balls:
         ball.update(screen, dt, colliders)
     if keys[pygame.K_i]:
         if cd > 1:
             a+=1
             cd = 0
+    if keys[pygame.K_p]:
+        balls = []
     
-    if ball:
+    for ball in balls:
         ball.draw(screen)
     for collider in colliders:
         collider.draw(screen)

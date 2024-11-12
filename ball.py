@@ -123,7 +123,7 @@ class Ball:
              screen : pygame.Surface):
         # pass
         pygame.draw.circle(screen, self.color, self.pos, self.size)
-        pygame.draw.line(screen, (255, 255, 255), self.pos, self.pos + self.velo, 1)
+        # pygame.draw.line(screen, (255, 255, 255), self.pos, self.pos + self.velo, 1)
 
     def update(self,
                screen : pygame.Surface,
